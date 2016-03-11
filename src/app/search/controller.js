@@ -21,7 +21,7 @@ angular.module('spotmop.search', [])
 /**
  * Main controller
  **/
-.controller('SearchController', function SearchController( $scope, $rootScope, $state, $stateParams, $timeout, $filter, SpotifyService ){
+.controller('SearchController', function SearchController( $scope, $rootScope, $state, $stateParams, $timeout, $filter, MopidyService, SpotifyService ){
 	
 	$scope.tracklist = {tracks: [], type: 'track'};
 	$scope.albums = [];
@@ -60,7 +60,7 @@ angular.module('spotmop.search', [])
 		switch( type ){
 			
 			case 'track' :
-				SpotifyService.getSearchResults( 'track', query, 50 )
+			/*	SpotifyService.getSearchResults( 'track', query, 50 )
 					.then( function(response){
 						$scope.tracklist = response.tracks;
 						$scope.tracklist.tracks = response.tracks.items;
@@ -70,6 +70,14 @@ angular.module('spotmop.search', [])
 						else
 							nextOffset = false;
 					});
+		*/
+				// TEST
+				MopidyService.search(query,['soundcloud:'])
+					.then( function(response){
+						$scope.tracklist.tracks = response[0].tracks;
+						$scope.tracklist.type = 'track';
+					});
+					
 				break;
 			
 			case 'album' :
